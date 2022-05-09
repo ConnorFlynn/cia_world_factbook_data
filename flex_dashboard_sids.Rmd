@@ -1,16 +1,29 @@
 ---
-title: "Import Data"
-author: "Connor Flynn"
-date: "5/8/2022"
-output: html_document
+title: "SIDS CIA World Factbook Data"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    social: menu
+    source_code: embed
+    theme: paper
+runtime: shiny
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(ggplot2)
+# library(mgcv)
+library(shiny)
+library(flexdashboard)
 library(tidyverse)
 library(here)
+library(plotly)
 options(scipen = 99)
+
+
 ```
+
+
 
 ```{r}
 factbook_data <- read_csv(here("data/cia-factbook.csv"))
@@ -73,11 +86,9 @@ sids_data <- factbook_data %>%
            country == "Turks-and-Caicos-Islands" |
            country == "Virgin-Islands" |
            country == "Northern-Mariana-Islands"
-         
            
   )
 ```
-
 
 ```{r}
 AIS <- c("Bahrain", "Comoros", "Guinea-Bissau", "Maldives", "Mauritius", 
@@ -106,3 +117,64 @@ sids_data <- sids_data %>%
     country %in% Pacific ~ "Pacific"))
 ```
 
+
+
+
+
+```{r}
+dataset <- sids_data
+```
+
+
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+
+
+sliderInput('sampleSize', 'Sample Size', min=51, max=51,
+            value=51, step=0, round=0)
+
+checkboxInput('jitter', 'Jitter', value = TRUE)
+checkboxInput('smooth', 'Smooth', value = FALSE)
+
+selectInput('x', 'X', names(dataset))
+selectInput('y', 'Y', names(dataset), names(dataset)[[2]])
+selectInput('color', 'Color', c('None', names(dataset)))
+
+selectInput('facet_row', 'Facet Row',
+c(None='.', names(dataset)))
+selectInput('facet_col', 'Facet Column',
+c(None='.', names(dataset)))
+```
+
+Outputs
+-----------------------------------------------------------------------
+
+### Data
+
+```{r}
+# dataset <- reactive({
+#   dataset[sample(nrow(dataset), input$sampleSize),]
+# })
+
+renderPlot({
+  p <- ggplot(data = dataset, aes_string(x=input$x, y=input$y)) + geom_point()
+  
+  
+  if (input$color != 'None')
+    p <- p + aes_string(color=input$color)
+  
+  facets <- paste(input$facet_row, '~', input$facet_col)
+  if (facets != '. ~ .')
+    p <- p + facet_grid(facets)
+  
+  if (input$jitter)
+    p <- p + geom_jitter()
+  if (input$smooth)
+    p <- p + geom_smooth()
+  
+  print(p)
+})
+```
