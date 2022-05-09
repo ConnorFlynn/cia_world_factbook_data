@@ -1,0 +1,77 @@
+---
+title: "Import Data"
+author: "Connor Flynn"
+date: "5/8/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+```
+
+```{r}
+factbook_data <- read_csv(here("data/cia-factbook.csv"))
+```
+
+```{r}
+sids_data <- factbook_data %>% 
+  filter(country == "Bahrain" |
+         country == "Comoros" |
+           country == "Guinea-Bissau" |
+           country == "Maldives" |
+           country == "Mauritius" |
+           country == "Sao-Tome-and-Principe" |
+           country == "Seychelles" |
+           country == "Singapore" |
+           country == "Antigua-and-Barbuda" |
+           country == "Bahamas" |
+           country == "Barbados" |
+           country == "Belize" | 
+           country == "Cuba" |
+           country == "Dominica" |
+           country == "Dominican-Republic" |
+           country == "Grenada" |
+           country == "Guyana" |
+           country == "Haiti" | 
+           country == "Jamaica" |
+           country == "Saint-Kitts-and-Nevis" |
+           country == "Saint-Lucia" |
+           country == "Saint-Vincent-and-the-Grenadines" |
+           country == "Suriname" |
+           country == "Trinidad-and-Tobago" |
+           country == "Fiji" |
+           country == "Kiribati" |
+           country == "Marshall-Islands" |
+           country == "Micronesia-Federated-States-of" |
+           country == "Nauru" |
+           country == "Palau" | 
+           country == "Papa-New-Guinea" |
+           country == "Samoa" |
+           country == "Solomon-Islands" |
+           country == "Timor-Leste" |
+           country == "Tonga" |
+           country == "Tuvalu" |
+           country == "Vanuatu" |
+           country == "American-Samoa" |
+           country == "Anguilla" |
+           country == "Aruba" |
+           country == "Bermuda" |
+           country == "British-Virgin-Islands" |
+           country == "Cayman-Islands" |
+           country == "Cook-Islands" |
+           country == "Curacao" |
+           country == "French-Polynesia" |
+           country == "Guam" |
+           country == "Montserrat" |
+           country == "New-Caledonia" |
+           country == "Niue" |
+           country == "Puerto-Rico" |
+           country == "Sint-Marteen" |
+           country == "Turks-and-Caicos-Islands" |
+           country == "Virgin-Islands"
+           
+  )
+```
+
