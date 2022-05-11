@@ -40,7 +40,7 @@ sids_data <- factbook_data %>%
            country == "Seychelles" |
            country == "Singapore" |
            country == "Antigua-and-Barbuda" |
-           country == "Bahamas" |
+           country == "Bahamas-The" |
            country == "Barbados" |
            country == "Belize" | 
            country == "Cuba" |
@@ -85,7 +85,7 @@ sids_data <- factbook_data %>%
            country == "Sint-Marteen" |
            country == "Turks-and-Caicos-Islands" |
            country == "Virgin-Islands" |
-           country == "Northern-Mariana-Islands"
+           country == "Northern-Mariana-Islands" 
            
   )
 ```
@@ -97,7 +97,7 @@ AIS <- c("Bahrain", "Comoros", "Guinea-Bissau", "Maldives", "Mauritius",
 
 
 ```{r}
-Carribean <- c("Antigua-and-Barbuda", "Bahamas", "Barbados", "Belize", 
+Carribean <- c("Antigua-and-Barbuda", "Bahamas-The", "Barbados", "Belize", 
                "Cuba", "Dominica", "Dominican-Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint-Kitts-and-Nevis", "Saint-Lucia", 
            "Saint-Vincent-and-the-Grenadines", "Suriname", "Trinidad-and-Tobago", "Anguilla", "Aruba", "Bermuda", "British-Virgin-Islands", "Cayman-Islands", "Curacao", "Montserrat", "Puerto-Rico", "Sint-Maarteen", "Virgin-Islands")
 ```
@@ -159,7 +159,7 @@ Outputs
 #   dataset[sample(nrow(dataset), input$sampleSize),]
 # })
 
-renderPlot({
+renderPlotly({
   p <- ggplot(data = dataset, aes_string(x=input$x, y=input$y)) + geom_point()
   
   
