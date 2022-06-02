@@ -18,6 +18,7 @@ library(flexdashboard)
 library(tidyverse)
 library(here)
 library(plotly)
+library(ggiraph)
 options(scipen = 99)
 
 
@@ -131,11 +132,6 @@ Inputs {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-
-
-sliderInput('sampleSize', 'Sample Size', min=51, max=51,
-            value=51, step=0, round=0)
-
 checkboxInput('jitter', 'Jitter', value = TRUE)
 checkboxInput('smooth', 'Smooth', value = FALSE)
 
@@ -155,26 +151,27 @@ Outputs
 ### Data
 
 ```{r}
-# dataset <- reactive({
-#   dataset[sample(nrow(dataset), input$sampleSize),]
-# })
 
-renderPlotly({
+
+renderggiraph({
   p <- ggplot(data = dataset, aes_string(x=input$x, y=input$y)) + geom_point()
-  
-  
+
+  my_gg <- p + geom_point_interactive(aes(tooltip = country), size = 2)
   if (input$color != 'None')
-    p <- p + aes_string(color=input$color)
-  
+    my_gg <- my_gg + aes_string(color=input$color)
+
   facets <- paste(input$facet_row, '~', input$facet_col)
   if (facets != '. ~ .')
-    p <- p + facet_grid(facets)
-  
+    my_gg <- my_gg + facet_grid(facets)
+
   if (input$jitter)
-    p <- p + geom_jitter()
+    my_gg <- my_gg + geom_jitter()
   if (input$smooth)
-    p <- p + geom_smooth()
-  
-  print(p)
+    my_gg <- my_gg + geom_smooth()
+
+    print(girafe(code=print(my_gg)))
 })
+
+
 ```
+
