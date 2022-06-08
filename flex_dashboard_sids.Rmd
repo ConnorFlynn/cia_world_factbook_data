@@ -65,10 +65,11 @@ Outputs
 ```{r}
 
 
-renderggiraph({
-  p <- ggplot(data = dataset, aes_string(x=input$x, y=input$y)) + geom_point()
+renderPlotly({
+  my_gg <- ggplot(data = dataset, aes_string(x=input$x, y=input$y, label = "country")) + geom_point()
+  
 
-  my_gg <- p + geom_point_interactive(aes(tooltip = country), size = 2)
+ 
   if (input$color != 'None')
     my_gg <- my_gg + aes_string(color=input$color)
 
@@ -81,7 +82,7 @@ renderggiraph({
   if (input$smooth)
     my_gg <- my_gg + geom_smooth()
 
-    print(girafe(code=print(my_gg)))
+   print(my_gg)
 })
 
 
