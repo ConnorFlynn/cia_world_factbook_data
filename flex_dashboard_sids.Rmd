@@ -44,7 +44,6 @@ Inputs {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-checkboxInput('jitter', 'Jitter', value = TRUE)
 checkboxInput('smooth', 'Smooth', value = FALSE)
 
 selectInput('x', 'X', names(dataset))
@@ -77,8 +76,6 @@ renderPlotly({
   if (facets != '. ~ .')
     my_gg <- my_gg + facet_grid(facets)
 
-  if (input$jitter)
-    my_gg <- my_gg + geom_jitter()
   if (input$smooth)
     my_gg <- my_gg + geom_smooth()
 
