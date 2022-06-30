@@ -52,7 +52,7 @@ fviz_nbclust(sids_data_scaled, kmeans, method = "wss")
 
 
 ```{r}
-km.out <- kmeans(sids_data_scaled, centers = 9, nstart = 100)
+km.out <- kmeans(sids_data_scaled, centers = 3, nstart = 100)
 ```
 
 
@@ -80,7 +80,7 @@ fviz_nbclust(sids_data_scaled_no_singapore, kmeans, method = "wss")
 
 
 ```{r}
-km.out.no.singapore <- kmeans(sids_data_scaled_no_singapore, centers = 7, nstart = 100)
+km.out.no.singapore <- kmeans(sids_data_scaled_no_singapore, centers = 3, nstart = 100)
 ```
 
 
