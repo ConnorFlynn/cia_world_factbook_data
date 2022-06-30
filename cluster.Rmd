@@ -14,6 +14,7 @@ library(ClustImpute)
 library(factoextra)
 library(cluster)
 library(gridExtra)
+options(scipen = 99)
 ```
 
 ```{r}
@@ -39,6 +40,67 @@ for(i in 1:ncol(sids_data)){
 }
 ```
 
+```{r}
+sids_data_scaled <- scale(sids_data)
+```
+
+```{r}
+fviz_nbclust(sids_data_scaled, kmeans, method = "wss")
+```
+
+
+
+
+```{r}
+km.out <- kmeans(sids_data_scaled, centers = 9, nstart = 100)
+```
+
+
+
+```{r}
+km.cluster <- km.out$cluster
+
+fviz_cluster(list(data = sids_data_scaled, cluster = km.cluster))
+```
+
+
+
+
+```{r}
+sids_data_scaled_no_singapore <- sids_data_scaled[-44,]
+```
+
+
+
+```{r}
+fviz_nbclust(sids_data_scaled_no_singapore, kmeans, method = "wss")
+```
+
+
+
+
+```{r}
+km.out.no.singapore <- kmeans(sids_data_scaled_no_singapore, centers = 7, nstart = 100)
+```
+
+
+```{r}
+km.cluster.no.singapore <- km.out.no.singapore$cluster
+
+fviz_cluster(list(data = sids_data_scaled_no_singapore, cluster = km.cluster.no.singapore))
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 kmeans <- kmeans(sids_data, centers = 10, nstart = 25)
@@ -60,15 +122,5 @@ kmeans <- ClustImpute(sids_data, 2, nr_iter = 10)
 ```
 
 
-```{r}
-plot(
-kmeans,
-type = "hist",
-vline = "centroids",
-hist_bins = 10,
-color_bins = "#56B4E9",
-color_vline = "#E69F00",
-size_vline = 2
-)
-```
+
 
