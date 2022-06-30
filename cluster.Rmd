@@ -1,0 +1,77 @@
+---
+title: "clustering"
+author: "Connor Flynn"
+date: "6/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stats)
+library(here)
+library(ClustImpute)
+library(factoextra)
+library(cluster)
+library(gridExtra)
+```
+
+```{r}
+sids_data <- read_csv(here("data/sids_data.csv"))
+```
+
+```{r}
+data <- USArrests
+```
+
+```{r}
+sids_data <- sids_data %>% 
+  remove_rownames %>% 
+  column_to_rownames(var="country")
+
+sids_data <- sids_data %>% 
+  select(-"region")
+
+for(i in 1:ncol(sids_data)){
+  sids_data[is.na(sids_data[,i]), i] <- mean(sids_data[,i], na.rm = TRUE)
+}
+```
+
+
+```{r}
+set.seed(739)
+n <- 750 # numer of points
+nr_other_vars <- 2
+mat <- matrix(rnorm(nr_other_vars*n),n,nr_other_vars)
+me<-4 # mean
+x <- c(rnorm(n/3,me/2,1),rnorm(2*n/3,-me/2,1))
+y <- c(rnorm(n/3,0,1),rnorm(n/3,me,1),rnorm(n/3,-me,1))
+dat <- cbind(mat,x,y)
+dat<- as.data.frame(scale(dat)) # scaling
+```
+
+
+
+
+```{r}
+set.seed(123)
+
+kmeans(sids_data_no_na, centers = 2, nstart = 25)
+
+kmeans <- ClustImpute(sids_data, 2, nr_iter = 10)
+
+```
+
+
+```{r}
+plot(
+kmeans,
+type = "hist",
+vline = "centroids",
+hist_bins = 10,
+color_bins = "#56B4E9",
+color_vline = "#E69F00",
+size_vline = 2
+)
+```
+
